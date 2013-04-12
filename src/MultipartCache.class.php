@@ -12,8 +12,6 @@ class MultipartCache {
 	function __construct() {
 		$this->cache = new Memcache();
 		$this->cache->addserver("127.0.0.1");
-		
-		($this->cache->getstats());
 	}
 
 	function setLimit($size) {

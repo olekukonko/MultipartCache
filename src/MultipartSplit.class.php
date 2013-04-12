@@ -1,4 +1,9 @@
 <?php
+/**
+ * 
+ * @author Oleku
+ *
+ */
 class MultipartSplit {
 	public $type;
 	public $hash;
