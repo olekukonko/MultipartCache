@@ -20,7 +20,7 @@ If you just want to see details of how it was save use `MultipartCache::getDetai
 print_r($cache->getDetails($key));
 ```
 
-Sample Output 
+###### Sample Output 
 
 	MultipartSplit Object
 	(
@@ -39,6 +39,18 @@ To get the stored information just use normal `memcache` methods since `Multipar
 
 ```PHP
 $dataFromCache = $cache->get($key);
+```
+
+##### Example 2
+
+```PHP
+	$key = "largeImage";
+	$cache = new MultipartCache();
+	$cache->addserver("127.0.0.1");
+	$cache->set($key, file_get_contents("large_image.jpg"));
+	
+	header("Content-Type: image/jpeg");
+	echo $cache->get($key);
 ```
 
 
