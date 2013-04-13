@@ -8,6 +8,11 @@ class MultipartCache extends \Memcache {
 	private $cache;
 	private $limit = 1048576;
 
+	/**
+	 * Set Cache Limit
+	 * @param int $size        	
+	 * @throws InvalidArgumentException
+	 */
 	function setLimit($size) {
 		if ($size > 1048576) {
 			throw new InvalidArgumentException("Size Can not be grater than 1024");
@@ -15,10 +20,12 @@ class MultipartCache extends \Memcache {
 		$this->limit = $size;
 	}
 
-	function getLastSplit() {
-		return $this->lastSpit;
-	}
-
+	/**
+	 *
+	 * @param string $key        	
+	 * @param string $flag        	
+	 * @return \MultipartSplit stdClass
+	 */
 	function getDetails($key, $flag = MEMCACHE_COMPRESSED) {
 		$details = parent::get($key, $flag);
 		
@@ -31,6 +38,10 @@ class MultipartCache extends \Memcache {
 		return $profile;
 	}
 
+	/**
+	 * Get Values from Cache
+	 * @see Memcache::get()
+	 */
 	function get($key, $flag = MEMCACHE_COMPRESSED) {
 		$split = parent::get($key, $flag);
 		if (! $split instanceof \MultipartSplit)
@@ -50,6 +61,10 @@ class MultipartCache extends \Memcache {
 		return $split->decode($data);
 	}
 
+	/**
+	 * Add Values to Cache
+	 * @see Memcache::set()
+	 */
 	function set($key, $var, $flag = MEMCACHE_COMPRESSED, $exp = null) {
 		$split = new MultipartSplit($this->limit);
 		$var = $split->encode($var);
@@ -71,7 +86,7 @@ class MultipartCache extends \Memcache {
 			$start += $this->limit;
 			$slices ++;
 		}
-		
+		$split->setSlices($slices);
 		return parent::set($key, $split, $flag, $exp);
 	}
 }
