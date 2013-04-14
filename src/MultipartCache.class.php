@@ -7,6 +7,7 @@
 class MultipartCache extends \Memcache {
 	private $cache;
 	private $limit = 1048576;
+	private $stat;
 
 	/**
 	 * Set Cache Limit
@@ -43,6 +44,8 @@ class MultipartCache extends \Memcache {
 	 * @see Memcache::get()
 	 */
 	function get($key, $flag = MEMCACHE_COMPRESSED) {
+		
+		// var_dump($this->getstats(),$this->getextendedstats());
 		$split = parent::get($key, $flag);
 		if (! $split instanceof \MultipartSplit)
 			return $split;
@@ -55,8 +58,8 @@ class MultipartCache extends \Memcache {
 			$data .= $part->getData();
 		}
 		
-		if (sha1($data) != $split->getHash())
-			throw new Exception("Data Corrupted");
+		if (sha1($data) != $split->getHashSHA1() || md5($data) != $split->getHashMD5())
+			throw new Exception("Data Corrupted SHA1 & MD5 hash do not match");
 		
 		return $split->decode($data);
 	}

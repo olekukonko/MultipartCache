@@ -7,7 +7,8 @@
 class MultipartSplit {
 	private $type;
 	private $start;
-	private $hash;
+	private $hashMD5;
+	private $hashSHA1;
 	private $limit;
 	private $slices = 0;
 	private $length = 0;
@@ -49,8 +50,17 @@ class MultipartSplit {
 	 *
 	 * @return string
 	 */
-	public function getHash() {
-		return $this->hash;
+	public function getHashSHA1() {
+		return $this->hashSHA1;
+	}
+
+	/**
+	 * Get DATA MD5 Hash
+	 *
+	 * @return string
+	 */
+	public function getHashMD5() {
+		return $this->hashMD5;
 	}
 
 	/**
@@ -85,11 +95,20 @@ class MultipartSplit {
 	 */
 	public function encode($input) {
 		$this->type = gettype($input);
+		
+		// Check if Binary
 		$this->binary = $this->type == "string" && ctype_print($input) === false;
+		
+		// Base64 Encode if Binary
 		$this->binary and $input = base64_encode($input);
+		
+		// Convert to string
 		$input = json_encode($input);
 		
-		$this->hash = sha1($input);
+		// Get String hash
+		$this->hashMD5 = md5($input);
+		$this->hashSHA1 = sha1($input);
+		
 		$this->length = strlen($input);
 		
 		return $input;
@@ -100,8 +119,11 @@ class MultipartSplit {
 	 */
 	public function decode($input) {
 		$input = json_decode($input);
+		
+		// Decode Binary
 		$this->binary and $input = base64_decode($input);
-		// fix json array to object issue
+		
+		// Fix json array to object issue
 		$this->type == "array" and $input = (array) $input;
 		return $input;
 	}
