@@ -12,6 +12,13 @@ class MultipartChunk {
 	private $length;
 	private $position;
 
+	/**
+	 *
+	 * @param string $data        	
+	 * @param string $next        	
+	 * @param int $offset        	
+	 * @param int $position        	
+	 */
 	function __construct($data, $next, $offset, $position) {
 		$this->data = $data;
 		$this->next = $next;
@@ -22,7 +29,7 @@ class MultipartChunk {
 
 	/**
 	 * Get next key
-	 * 
+	 *
 	 * @return string
 	 */
 	function getNext() {
@@ -31,7 +38,7 @@ class MultipartChunk {
 
 	/**
 	 * Get Chunk Data
-	 * 
+	 *
 	 * @return string
 	 */
 	function getData() {

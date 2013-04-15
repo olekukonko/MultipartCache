@@ -79,15 +79,15 @@ class MultipartCache extends \Memcache {
 		$start = $slices = 0;
 		$split->setStart(sprintf("%s-%s", $key, $start));
 		
-		$dataPart = "";
-		while ( $dataPart = substr($var, $start, $this->limit) ) {
+		$dataPart = substr($var, $start, $this->limit);
+		while ( $dataPart ) {
 			$nextOffset = $start + $this->limit;
 			$next = $nextOffset >= $split->getLength() ? false : $key . "-" . $nextOffset;
 			if (! parent::set(sprintf("%s-%s", $key, $start), new MultipartChunk($dataPart, $next, $start, $slices), $flag, $exp))
 				return false;
-			
 			$start += $this->limit;
 			$slices ++;
+			$dataPart = substr($var, $start, $this->limit);
 		}
 		$split->setSlices($slices);
 		return parent::set($key, $split, $flag, $exp);

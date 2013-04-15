@@ -14,6 +14,10 @@ class MultipartSplit {
 	private $length = 0;
 	private $binary = 0;
 
+	/**
+	 *
+	 * @param int $limit        	
+	 */
 	function __construct($limit) {
 		$this->limit = $limit;
 	}
@@ -102,14 +106,16 @@ class MultipartSplit {
 		// Base64 Encode if Binary
 		$this->binary and $input = base64_encode($input);
 		
-		// Convert to string
-		$input = json_encode($input);
+		// Convert to JSON string / Msg Pack Binary
+		$input = function_exists("msgpack_pack") ? msgpack_pack($input) : json_encode($input);
+		
+		//var_dump($input);
 		
 		// Get String hash
 		$this->hashMD5 = md5($input);
 		$this->hashSHA1 = sha1($input);
 		
-		$this->length = strlen($input);
+		$this->length = mb_strlen($input);
 		
 		return $input;
 	}
@@ -118,7 +124,11 @@ class MultipartSplit {
 	 * Decode Data
 	 */
 	public function decode($input) {
-		$input = json_decode($input);
+		
+		// Convert from JSON string / Msg Pack Binary
+		$input = function_exists("msgpack_unpack") ? msgpack_unpack($input) : json_decode($input);
+		
+		//var_dump($input);
 		
 		// Decode Binary
 		$this->binary and $input = base64_decode($input);
