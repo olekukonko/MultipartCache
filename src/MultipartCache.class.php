@@ -1,7 +1,22 @@
 <?php
 /**
+ * Copyright 2012 Oleku Konko
  *
- * @author Oleku
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ *
+ * @author oleku
+ *        
  *        
  */
 class MultipartCache extends \Memcache {
@@ -11,7 +26,7 @@ class MultipartCache extends \Memcache {
 
 	/**
 	 * Set Cache Limit
-	 * @param int $size        	
+	 * @param int $size
 	 * @throws InvalidArgumentException
 	 */
 	function setLimit($size) {
@@ -23,8 +38,8 @@ class MultipartCache extends \Memcache {
 
 	/**
 	 *
-	 * @param string $key        	
-	 * @param string $flag        	
+	 * @param string $key
+	 * @param string $flag
 	 * @return \MultipartSplit stdClass
 	 */
 	function getDetails($key, $flag = MEMCACHE_COMPRESSED) {
@@ -41,6 +56,7 @@ class MultipartCache extends \Memcache {
 
 	/**
 	 * Get Values from Cache
+	 *
 	 * @see Memcache::get()
 	 */
 	function get($key, $flag = MEMCACHE_COMPRESSED) {
@@ -66,6 +82,7 @@ class MultipartCache extends \Memcache {
 
 	/**
 	 * Add Values to Cache
+	 *
 	 * @see Memcache::set()
 	 */
 	function set($key, $var, $flag = MEMCACHE_COMPRESSED, $exp = null) {
