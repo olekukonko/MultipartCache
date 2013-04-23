@@ -10,7 +10,9 @@ $largeSet = range(0, 100000);
 $key = "largeSet";
 
 $cache = new MultipartCache();
-$cache->addserver("127.0.0.1"); // connect to memecache server
+$cache->addserver("127.0.0.1"); // Local memecache server
+$cache->addserver("54.234.98.140:49226"); //Free server from www.memcachedasaservice.com
+
 $cache->setLimit(1024); 		// Reduce limit to for testing
 $cache->set($key, $largeSet);
 ```
@@ -44,13 +46,15 @@ $dataFromCache = $cache->get($key);
 ##### Example 2
 
 ```PHP
-	$key = "largeImage";
-	$cache = new MultipartCache();
-	$cache->addserver("127.0.0.1");
-	$cache->set($key, file_get_contents("large_image.jpg"));
-	
-	header("Content-Type: image/jpeg");
-	echo $cache->get($key);
+$key = "largeImage";
+$cache = new MultipartCache();
+$cache->addserver("127.0.0.1");  // Local memecache server
+$cache->addserver("X.X.X.X"); //Free server from www.memcachedasaservice.com
+
+$cache->set($key, file_get_contents("large_image.jpg"));
+
+header("Content-Type: image/jpeg");
+echo $cache->get($key);
 ```
 
 

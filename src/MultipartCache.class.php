@@ -19,7 +19,17 @@
  *        
  *        
  */
-class MultipartCache extends \Memcache {
+if (class_exists("Memcached")) {
+	abstract class MultipartBase extends \Memcached {
+	}
+} else if (class_exists("Memcache")) {
+	abstract class MultipartBase extends \Memcache {
+	}
+} else {
+	trigger_error("Install PHP Memcache");
+	exit();
+}
+class MultipartCache extends MultipartBase {
 	private $cache;
 	private $limit = 1048576;
 	private $stat;
