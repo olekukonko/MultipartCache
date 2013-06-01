@@ -1,19 +1,25 @@
 {
     "name": "oleku/multipart-cache",
     "description": "simple class that extends PHP memcache to support saving data larger than 1MB.",
-    "keywords": ["cache","memcache","split"],
+    "keywords": [
+        "cache",
+        "memcache",
+        "split"
+    ],
     "homepage": "https://github.com/olekukonko/MultipartCache",
     "license": "MIT",
     "authors": [
         {
             "name": "olekukonko",
-            "email": "oleku.konko@yahoo.com",
+            "email": "oleku.konko@yahoo.com"
         }
     ],
-   "autoload": {
-        "psr-0": { "oleku": "src/" }
+    "autoload": {
+        "psr-0": {
+            "oleku": "src/"
+        }
     },
     "require": {
-		"memcache" : "*"
+        "memcache": "*"
     }
 }
