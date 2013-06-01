@@ -39,7 +39,7 @@ print_r($cache->getDetails($key));
 - System split this data into `576` slices
 - You can also see the time the data was saved
 
-***Note that `Mcache\Main::getDetails()` would only have information of any data grater than the limit set. This was implement for performance reasons***
+*Note that `Mcache\Main::getDetails()` would only have information of any data grater than the limit set. This was implement for performance reasons*
 	
 	
 To get the stored information just use normal `memcache` methods since `Mcache\Main` extends `memcache`
